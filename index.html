@@ -21,15 +21,15 @@
     <section class="csv-file-loader bg-warning">
         <p>Here should be a "Load file" part.</p>
         <div class="input-group mb-3">
-            <input type="file" class="form-control" id="choose_file">
-            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+            <input type="file" class="form-control" id="upload_file">
+            <button class="input-group-text" for="inputGroupFile02" id="upload-file_button">Upload</button>
         </div>
 
     </section>
 
     <section class="csv_preview">
         <p>Here should be a preview of the new generated file.</p>
-        <p class="loaded-csv-data"></p>
+        <table id="loaded_csv_data_table"></table>
     </section>
 
     <section class="buttons">
