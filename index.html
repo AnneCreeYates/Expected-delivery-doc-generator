@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
     <title>Expected Delivery Doc Generator</title>
 </head>
 
@@ -13,16 +18,28 @@
         <p class="header_content">Here goes the description of what it is and how to use it</p>
     </section>
 
-    <section class="csv-file-loader">
-        <p>Here should be a "Load file" part. bootstrap can be used to make it easier </p>
+    <section class="csv-file-loader bg-warning">
+        <p>Here should be a "Load file" part.</p>
+        <div class="input-group mb-3">
+            <input type="file" class="form-control" id="choose_file">
+            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+        </div>
+
     </section>
 
     <section class="csv_preview">
-        <p class="loaded-csv-data">Here should be a preview of the new generated file.</p>
+        <p>Here should be a preview of the new generated file.</p>
+        <p class="loaded-csv-data"></p>
     </section>
 
     <section class="buttons">
         <p>This is buttons section: add "Preview", "Edit", "Save changes", "Print" buttons</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button class="btn btn-primary" type="button">Preview</button>
+            <button class="btn btn-primary" type="button">Edit</button>
+            <button class="btn btn-primary" type="button">Save changes</button>
+            <button class="btn btn-primary" type="button">Print</button>
+        </div>
     </section>
 
 </body>
