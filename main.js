@@ -1,8 +1,8 @@
 let selectedFile;
-const upload = document.getElementById("upload_file").addEventListener(
+document.getElementById("upload_file").addEventListener(
   "change",
-  (evnt) => {
-    selectedFile = evnt.target.files[0];
+  (event) => {
+    selectedFile = event.target.files[0];
   },
   false
 );
@@ -16,9 +16,13 @@ document.getElementById("upload-file_button").addEventListener(
       reader.onload = (event) => {
         const csv = event.target.result;
         const data = csv.split("\n").map((row) => row.split(","));
+        const data_without_first_two_rows = data.slice(2);
+        //column names start with the row 3 in the csv file
+        const column_names = data[2];
+
         //table
         const table = document.getElementById("loaded_csv_data_table");
-        data.forEach((row) => {
+        data_without_first_two_rows.forEach((row) => {
           const table_row = document.createElement("tr");
           row.forEach((content) => {
             const table_data = document.createElement("td");
