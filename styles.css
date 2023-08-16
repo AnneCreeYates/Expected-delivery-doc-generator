@@ -1,8 +1,20 @@
 /*Add the reset*/
 
 
-.csv_preview {
+
+.csv_preview-section {
   margin:  0 auto;
   padding: 2em;
   width: 100%;
+}
+
+.table-container {
+  margin: 0 auto;
+  padding: 2em;
+  width: 90%;
+  background-color: aquamarine;
+}
+
+#loaded_csv_data_table {
+  font-size: .6em;
 }
