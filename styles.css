@@ -6,6 +6,8 @@
   margin:  0 auto;
   padding: 2em;
   width: 100%;
+  font-family: Calibri, sans-serif;
+  font-size: 1.125em;
 }
 
 .table-container {
@@ -13,6 +15,7 @@
   padding: 2em;
   width: 90%;
   background-color: aquamarine;
+  
 }
 
 #loaded_csv_data_table {
