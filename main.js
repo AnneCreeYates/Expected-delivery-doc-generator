@@ -31,6 +31,9 @@ document.getElementById("upload-file_button").addEventListener(
   
         // newCsv is the csv raw file formated by regular expressions before splitting into rows
         const newCsv = csv
+        .replaceAll("Compass Services (uk) Limited",  "Compass Services (uk) Ltd")
+        .replaceAll("West Country Milk Consortium", "West Country Milk Con.")
+        .replaceAll("Matthew Clark Wholesale Ltd", "Matthew Clark Whole Ltd")
         .replace(numInQuotes, "$1$2")
         .replace(dueDates, formatsDueDate)
         .replace(longDateFormat, formatsLongDate);
