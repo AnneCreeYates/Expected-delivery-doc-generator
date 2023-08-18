@@ -1,7 +1,6 @@
 let selectedFile;
-//for the time being this variable needs to be global, because filteredDataToBrowser needs access to it.
-// if I put the filtersData fuinction which returns filteredData withing the filteredDataToBrowser function, it doesn't have the access to columnNames, which is necessary for filtering 
 let filteredData = [];
+let newCsv;
 
 // Get the file and read it into memory.
 document.getElementById("upload_file").addEventListener(
@@ -22,26 +21,11 @@ document.getElementById("upload-file_button").addEventListener(
       reader.readAsText(selectedFile);
       reader.onload = (event) => {
         const csv = event.target.result;
-        // regular expression pattern that defines the numbers inquotes, which need to lose the comma 
-        const numInQuotes = /"(\d+),(\d+)"/g;
-        // regular expression pattern that defines the due date format that needs to be changed to all digits
-        const dueDates = /(\d+)-(\w+)-(\d+)/g;
-        // regular expression pattern that defines the long date format that needs to be changed to a short date format
-        const longDateFormat = /(\d+)\/(\d+)\/(\d+)\s+(\d+):(\d+)/g;
-  
-        // newCsv is the csv raw file formated by regular expressions before splitting into rows
-        const newCsv = csv
-        .replaceAll("Compass Services (uk) Limited",  "Compass Services (uk) Ltd")
-        .replaceAll("West Country Milk Consortium", "West Country Milk Con.")
-        .replaceAll("Matthew Clark Wholesale Ltd", "Matthew Clark Whole Ltd")
-        .replace(numInQuotes, "$1$2")
-        .replace(dueDates, formatsDueDate)
-        .replace(longDateFormat, formatsLongDate);
+        
+        regExpFormating(csv);
        
         let data = newCsv.split("\n").map((row) => row.split(","));
-        
-        const columnNames = data[2];
-        console.log(columnNames)       
+        const columnNames = data[2];    
         const requiredColNames = ["Pre-Advice ID", "Status", "Due Date", "Rec'd Date", "SKU", "SKU Description", "Qty Ord'd", "Qty Rec'd", "Supp ID", "Supplier Name", "Shelf Life ", "Shelf Life \r"]
 
         filtersData(columnNames, requiredColNames, data);
@@ -78,6 +62,27 @@ function formatsDueDate(match, day, month, year) {
 function formatsLongDate(match, month, day, year) {
   const shortYear = year.slice(-2);
   return `${month}/${day}/${shortYear}`;
+}
+
+// function using regular expressions for formating
+function regExpFormating(csv){
+  // regular expression pattern that defines the numbers in quotes, which need the comma removed 
+  const numInQuotes = /"(\d+),(\d+)"/g;
+  // regular expression pattern that defines the due date format that needs to be changed to all digits
+  const dueDates = /(\d+)-(\w+)-(\d+)/g;
+  // regular expression pattern that defines the long date format that needs to be changed to a short date format
+  const longDateFormat = /(\d+)\/(\d+)\/(\d+)\s+(\d+):(\d+)/g;
+
+  // newCsv is the csv raw file formated by regular expressions before splitting into rows
+  newCsv = csv
+  .replaceAll("Compass Services (uk) Limited",  "Compass Services (uk) Ltd")
+  .replaceAll("West Country Milk Consortium", "West Country Milk Con.")
+  .replaceAll("Matthew Clark Wholesale Ltd", "Matthew Clark Whole Ltd")
+  .replace(numInQuotes, "$1$2")
+  .replace(dueDates, formatsDueDate)
+  .replace(longDateFormat, formatsLongDate);
+
+  return newCsv;
 }
 
 // function filters the data from csv file using the requiredColumns to map only the required elements
