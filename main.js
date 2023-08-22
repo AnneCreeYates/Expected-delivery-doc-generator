@@ -117,4 +117,23 @@ function filteredDataToBrowser(filteredData) {
     });
     table.appendChild(tableRow);
   });
+  generateExcelFile(filteredData);
+}
+
+// function that is generating Excel file from the selected data
+function generateExcelFile(filteredData) {
+  // create a workbook
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet("Expected Delivery Sheet");
+
+  // Add data to the worksheet
+  worksheet.columns = Object.keys(filteredData[0]).map(key => ({header: key, key}));
+  worksheet.addRows(filteredData);
+
+  // Write the Excel file
+  workbook.xlsx.writeBuffer()
+    .then(buffer => {
+      const blob = new Blob([buffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      saveAs(blob, 'expected-delivery.xlsx');
+    });
 }
