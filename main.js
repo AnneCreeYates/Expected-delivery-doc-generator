@@ -136,22 +136,13 @@ function generateExcelFile(filteredData) {
   });
 
   
-
   // Add data to the worksheet
   worksheet.columns = Object.keys(filteredData[0]).map(key => ({header: key, key}));
   worksheet.addRows(filteredData);
 
-
-  // --------HEADER ON EVERY PAGE ------- THIS MAY BE A SEPARATE FUNCTION -----
-
   generateInstructions(worksheet);
-
-  // -------------------------------------------
-
   autoFitColumnWidth(worksheet);
   
- 
-
   // Write the Excel file
   workbook.xlsx.writeBuffer()
     .then(buffer => {
@@ -173,24 +164,26 @@ function generateInstructions(worksheet) {
 
   // Set the value and alignment of the merged cell
   worksheet.getCell("A1").value = "Expected Delivery Sheet – Actions against delivery discrepancies";
-  worksheet.getCell("A3").value = "·         All discrepancies with deliveries MUST be noted and a reason given. Supply Chain MUST be informed as soon as is reasonably practicable by email AND Face to Face";
-  worksheet.getCell("A5").value = "·         FLM responsible for shift handovers Night – Mornings - MUST take responsibility for communicating delivery issues and enter onto wipe board in service centre";
-  worksheet.getCell("A7").value = "·         FLM can access Red Prairie on parceldeck – pot wash. No delivery should be left unchecked. All MUST be checked for damage, quality, quantity, dates etc.";
+  worksheet.getCell("A3").value = "·   All discrepancies with deliveries MUST be noted and a reason given. Supply Chain MUST be informed as soon as is reasonably practicable by email AND Face to Face";
+  worksheet.getCell("A5").value = "·   FLM responsible for shift handovers Night – Mornings - MUST take responsibility for communicating delivery issues and enter onto wipe board in service centre";
+  worksheet.getCell("A7").value = "·   FLM can access Red Prairie on parceldeck – pot wash. No delivery should be left unchecked. All MUST be checked for damage, quality, quantity, dates etc.";
   worksheet.getCell("A8").value = " ";
   // align the content of the cells
   worksheet.getCell("A1", "A3", "A5", "A7").alignment = { horizontal: "center" };
 }
 
 // the function is auto-fittin the width of a column to its content -- doesn't work properly at the moment it stretches everything too much -- in accordance to the first 8 rows
-function autoFitColumnWidth(worksheet) {
+function autoFitColumnWidth(worksheet, startRow = 9) {
   worksheet.columns.forEach(column => {
     let maxLength = 0;
-    column.eachCell(cell => {
-      const columnLength = cell.value
-        ? (cell.value.length + 2)
-        : 10;
-      if (columnLength > maxLength) {
-        maxLength = columnLength;
+    column.eachCell( (cell, rowNumber) => {
+      if (rowNumber >= startRow) {
+        const columnLength = cell.value
+          ? (cell.value.length)
+          : 10
+        if (columnLength > maxLength) {
+          maxLength = columnLength;
+        }
       }
     });
     column.width = maxLength < 10 ? 10 : maxLength;
